@@ -1,0 +1,1310 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Attendify — Attendance made simple</title>
+
+<style>
+:root{
+  --blue:#2f68e8;
+  --blue2:#2459d5;
+  --ink:#0d1b36;
+  --muted:#66738a;
+  --line:#d6dce6;
+  --soft:#f7f9fc;
+  --bg:#f2f6fb
+}
+
+*{
+  box-sizing:border-box
+}
+
+body{
+  margin:0;
+  background:linear-gradient(180deg,#f3f7fc 0,#eef3f8 100%);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color:var(--ink)
+}
+
+.app{
+  width:min(100%,700px);
+  margin:0 auto;
+  padding:0 20px 28px
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:20px 10px 16px
+}
+
+.brand{
+  font-weight:800;
+  color:#244fae;
+  font-size:14px;
+  letter-spacing:.1px;
+  margin-bottom:8px
+}
+
+.hero h1{
+  font-size:44px;
+  line-height:1.03;
+  letter-spacing:-1.7px;
+  margin:0;
+  font-weight:800
+}
+
+.hero h1 span{
+  display:block
+}
+
+.hero p{
+  max-width:510px;
+  margin:13px auto 0;
+  color:#36527a;
+  font-size:12px;
+  line-height:1.55
+}
+
+/* LIVE DATE TIME */
+.live{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  align-items:center;
+  margin-top:9px;
+  color:#60718b;
+  font-size:11px
+}
+
+.live b{
+  color:#244fae
+}
+
+.dot{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#2f68e8;
+  display:inline-block
+}
+
+/* MAIN CARD */
+.shell{
+  background:#fff;
+  border-radius:16px;
+  box-shadow:0 13px 38px rgba(43,65,103,.13);
+  padding:20px;
+  margin-top:9px
+}
+
+.section-title{
+  font-size:15px;
+  font-weight:800;
+  margin:0
+}
+
+.sub{
+  color:#6d798d;
+  font-size:11px;
+  margin:4px 0 12px
+}
+
+/* INPUTS */
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px 10px
+}
+
+.field label{
+  display:block;
+  font-size:10px;
+  margin-bottom:5px;
+  font-weight:700;
+  color:#142644
+}
+
+.field input{
+  width:100%;
+  height:36px;
+  border:1px solid #cbd3df;
+  border-radius:7px;
+  padding:0 10px;
+  font-size:13px;
+  color:#10213e;
+  background:#fff;
+  outline:none
+}
+
+.field input:focus{
+  border-color:#6e96ec;
+  box-shadow:0 0 0 3px rgba(47,104,232,.1)
+}
+
+/* BUTTONS */
+.actions{
+  display:flex;
+  gap:8px;
+  margin-top:14px
+}
+
+.btn{
+  border:0;
+  border-radius:7px;
+  height:35px;
+  padding:0 14px;
+  font-size:11px;
+  font-weight:800;
+  cursor:pointer
+}
+
+.primary{
+  background:var(--blue);
+  color:#fff
+}
+
+.secondary{
+  background:#e9edf3;
+  color:#23324c
+}
+
+/* QUICK TARGET */
+.quick{
+  margin-top:15px
+}
+
+.quick-title{
+  font-size:10px;
+  font-weight:800;
+  margin-bottom:7px
+}
+
+.targets{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap
+}
+
+.target{
+  border:0;
+  border-radius:7px;
+  padding:8px 13px;
+  background:#edf3ff;
+  color:#2355c6;
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer
+}
+
+.target.active{
+  background:#dce8ff;
+  outline:1px solid #9bb8fb
+}
+
+/* STAT BOXES */
+.stats{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+  margin-top:17px
+}
+
+.stat{
+  background:#fafbfc;
+  border:1px solid #dce1e8;
+  border-radius:8px;
+  padding:12px 12px 11px
+}
+
+.stat strong{
+  display:block;
+  font-size:22px;
+  line-height:1.05;
+  letter-spacing:-.4px
+}
+
+.stat small{
+  display:block;
+  font-size:9px;
+  color:#5d6a7f;
+  margin-top:5px
+}
+
+/* CIRCLE GRAPH */
+.circle-wrap{
+  display:flex;
+  justify-content:center;
+  margin:18px 0 4px
+}
+
+.circle-chart{
+  --p:0%;
+  width:132px;
+  height:132px;
+  border-radius:50%;
+  background:conic-gradient(
+    var(--blue) var(--p),
+    #e4e8ee 0
+  );
+  display:grid;
+  place-items:center;
+  position:relative;
+  box-shadow:0 5px 16px rgba(47,104,232,.12)
+}
+
+.circle-chart::before{
+  content:"";
+  width:104px;
+  height:104px;
+  border-radius:50%;
+  background:#fff;
+  position:absolute
+}
+
+.circle-content{
+  position:relative;
+  z-index:1;
+  text-align:center
+}
+
+.circle-content strong{
+  display:block;
+  font-size:24px;
+  letter-spacing:-.5px
+}
+
+.circle-content span{
+  display:block;
+  font-size:9px;
+  color:#68758a;
+  font-weight:800;
+  margin-top:2px
+}
+
+/* LINEAR PROGRESS */
+.progress-wrap{
+  margin-top:13px
+}
+
+.progress-head{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  font-size:9px;
+  font-weight:800;
+  margin-bottom:5px
+}
+
+.progress{
+  height:7px;
+  border-radius:9px;
+  background:#e3e7ec;
+  overflow:hidden
+}
+
+.bar{
+  height:100%;
+  width:0;
+  background:var(--blue);
+  border-radius:9px;
+  transition:width .2s
+}
+
+/* TARGET GRID */
+.targets-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:7px;
+  margin-top:10px
+}
+
+.target-card{
+  border:1px solid #d8dee7;
+  background:#fff;
+  border-radius:8px;
+  padding:9px 5px;
+  text-align:center;
+  min-height:51px
+}
+
+.target-card b{
+  display:block;
+  font-size:10px
+}
+
+.target-card span{
+  display:block;
+  font-size:8px;
+  color:#6c7789;
+  margin-top:4px;
+  line-height:1.3
+}
+
+/* PROJECTIONS */
+.projection{
+  margin-top:18px;
+  padding-top:16px;
+  border-top:1px solid #e6e9ee
+}
+
+.projection h3{
+  font-size:13px;
+  margin:0 0 3px
+}
+
+.projection p{
+  font-size:10px;
+  color:#6b778c;
+  margin:0 0 10px
+}
+
+.impact{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px
+}
+
+.ibox{
+  background:#f8fafc;
+  border:1px solid #e1e5eb;
+  border-radius:8px;
+  padding:10px 6px;
+  text-align:center
+}
+
+.ibox small{
+  font-size:8px;
+  font-weight:800;
+  color:#67748a;
+  display:block
+}
+
+.ibox strong{
+  display:block;
+  font-size:15px;
+  margin-top:5px
+}
+
+.ibox .date{
+  display:block;
+  font-size:8px;
+  color:#66738a;
+  margin-top:4px
+}
+
+.gain{
+  color:#07814f;
+  font-size:8px;
+  margin-top:3px;
+  display:block
+}
+
+.loss{
+  color:#c22b4f;
+  font-size:8px;
+  margin-top:3px;
+  display:block
+}
+
+/* NOTICE */
+.notice{
+  margin-top:11px;
+  padding:11px 12px;
+  border-radius:8px;
+  background:#edf8f2;
+  border:1px solid #cfeadb;
+  color:#176b48;
+  font-size:10px
+}
+
+.notice.warn{
+  background:#fff5f6;
+  border-color:#f2ced6;
+  color:#9e2942
+}
+
+/* FORMULA */
+.formula{
+  margin-top:17px;
+  border:1px solid #dfe4ea;
+  border-radius:9px;
+  padding:12px;
+  background:#fbfcfd
+}
+
+.formula h3{
+  font-size:12px;
+  margin:0 0 8px
+}
+
+.formula code{
+  display:block;
+  background:#121c31;
+  color:#fff;
+  border-radius:6px;
+  padding:9px 10px;
+  font-size:8px;
+  line-height:1.4;
+  white-space:nowrap;
+  overflow:auto
+}
+
+.footer{
+  text-align:center;
+  color:#78869a;
+  font-size:9px;
+  margin-top:13px
+}
+
+/* RESPONSIVE */
+@media(max-width:560px){
+
+  .app{
+    padding:0 12px 20px
+  }
+
+  .hero{
+    padding-top:13px
+  }
+
+  .hero h1{
+    font-size:37px
+  }
+
+  .grid{
+    grid-template-columns:1fr 1fr
+  }
+
+  .targets-grid{
+    grid-template-columns:repeat(5,1fr)
+  }
+
+  .shell{
+    padding:15px
+  }
+
+  .impact{
+    grid-template-columns:1fr
+  }
+
+  .ibox{
+    padding:9px
+  }
+}
+
+@media(max-width:390px){
+
+  .hero h1{
+    font-size:31px
+  }
+
+  .grid,
+  .stats{
+    grid-template-columns:1fr
+  }
+
+  .targets-grid{
+    grid-template-columns:repeat(3,1fr)
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+  <!-- HEADER -->
+  <header class="hero">
+
+    <div class="brand">ATTENDIFY</div>
+
+    <h1>
+      <span>Attendance,</span>
+      <span>made simple.</span>
+    </h1>
+
+    <p>
+      Calculate your current attendance and find exactly how many
+      lectures or days you need to attend to reach your target.
+    </p>
+
+    <div class="live">
+      <span class="dot"></span>
+      <b id="liveDate">Loading...</b>
+      <span>•</span>
+      <span id="liveTime">--:--:--</span>
+    </div>
+
+  </header>
+
+  <!-- MAIN -->
+  <main class="shell">
+
+    <h2 class="section-title">
+      Calculate Your Attendance
+    </h2>
+
+    <p class="sub">
+      Enter your attendance details below.
+    </p>
+
+    <!-- INPUTS -->
+    <div class="grid">
+
+      <div class="field">
+        <label>Total Lectures Held</label>
+        <input id="L" type="number" min="1" value="384">
+      </div>
+
+      <div class="field">
+        <label>Total Absent</label>
+        <input id="A" type="number" min="0" value="60">
+      </div>
+
+      <div class="field">
+        <label>Total OAA</label>
+        <input id="O" type="number" min="0" value="0">
+      </div>
+
+      <div class="field">
+        <label>Target Attendance (%)</label>
+        <input id="T" type="number" min="1" max="100" value="90">
+      </div>
+
+      <div class="field">
+        <label>Lectures Per Day</label>
+        <input id="D" type="number" min="1" value="8">
+      </div>
+
+      <div class="field">
+        <label>Future Days You Will Attend</label>
+        <input id="future" type="number" min="0" value="0">
+      </div>
+
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="actions">
+
+      <button class="btn primary" id="calcBtn">
+        Calculate Attendance
+      </button>
+
+      <button class="btn secondary" id="resetBtn">
+        Reset
+      </button>
+
+    </div>
+
+    <!-- QUICK TARGET -->
+    <div class="quick">
+
+      <div class="quick-title">
+        Quick Target:
+      </div>
+
+      <div class="targets" id="targets">
+
+        <button class="target" data-t="75">75%</button>
+        <button class="target" data-t="80">80%</button>
+        <button class="target" data-t="85">85%</button>
+        <button class="target active" data-t="90">90%</button>
+        <button class="target" data-t="95">95%</button>
+
+      </div>
+
+    </div>
+
+    <!-- STATISTICS -->
+    <div class="stats">
+
+      <div class="stat">
+        <strong id="pct">0%</strong>
+        <small>Current Attendance</small>
+      </div>
+
+      <div class="stat">
+        <strong id="days">0</strong>
+        <small>Days Needed</small>
+      </div>
+
+      <div class="stat">
+        <strong id="need">0</strong>
+        <small>Lectures Needed</small>
+      </div>
+
+      <div class="stat">
+        <strong id="after">0%</strong>
+        <small>Attendance After Required Days</small>
+      </div>
+
+    </div>
+
+    <!-- CIRCLE GRAPH -->
+    <div class="circle-wrap">
+
+      <div class="circle-chart" id="circleChart">
+
+        <div class="circle-content">
+
+          <strong id="circlePct">
+            0%
+          </strong>
+
+          <span>
+            ATTENDANCE
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- PROGRESS BAR -->
+    <div class="progress-wrap">
+
+      <div class="progress-head">
+
+        <span>Current Progress</span>
+
+        <span id="progressPct">
+          0%
+        </span>
+
+      </div>
+
+      <div class="progress">
+
+        <div class="bar" id="bar"></div>
+
+      </div>
+
+    </div>
+
+    <!-- TARGET DAYS -->
+    <div class="quick" style="margin-top:17px">
+
+      <div class="quick-title">
+        How many days for each target?
+      </div>
+
+      <div class="targets-grid" id="targetGrid"></div>
+
+    </div>
+
+    <!-- ATTEND CLASSES -->
+    <div class="projection">
+
+      <h3>
+        What if you attend classes?
+      </h3>
+
+      <p>
+        See the attendance and date after attending full days.
+      </p>
+
+      <div class="impact" id="growth"></div>
+
+    </div>
+
+    <!-- TAKE LEAVE -->
+    <div class="projection">
+
+      <h3>
+        What if you take leave?
+      </h3>
+
+      <p>
+        See the attendance and date after missing full days.
+      </p>
+
+      <div class="impact" id="impact"></div>
+
+    </div>
+
+    <!-- NOTICE -->
+    <div class="notice" id="safe"></div>
+
+    <!-- FORMULA -->
+    <div class="formula">
+
+      <h3>
+        Formula Used
+      </h3>
+
+      <code>
+        Attendance % = 100 − (((Total Absent − Total OAA) ÷ Total Lecture) × 100)
+      </code>
+
+    </div>
+
+  </main>
+
+  <div class="footer">
+    © <span id="year"></span>
+    Attendance Calculator • Made for Students
+  </div>
+
+</div>
+
+
+<script>
+
+/* BASIC HELPERS */
+const $ = id => document.getElementById(id);
+
+const V = id => Number($(id).value);
+
+const F = x =>
+  Number.isFinite(x)
+  ? x.toFixed(2)
+  : '—';
+
+const fmtDate = d =>
+  d.toLocaleDateString(
+    'en-IN',
+    {
+      day:'2-digit',
+      month:'short',
+      year:'numeric'
+    }
+  );
+
+
+/* LIVE DATE AND TIME */
+function updateDateTime(){
+
+  const now = new Date();
+
+  $('liveDate').textContent =
+    now.toLocaleDateString(
+      'en-IN',
+      {
+        weekday:'short',
+        day:'2-digit',
+        month:'short',
+        year:'numeric'
+      }
+    );
+
+  $('liveTime').textContent =
+    now.toLocaleTimeString(
+      'en-IN',
+      {
+        hour:'2-digit',
+        minute:'2-digit',
+        second:'2-digit',
+        hour12:true
+      }
+    );
+
+  $('year').textContent =
+    now.getFullYear();
+}
+
+updateDateTime();
+
+setInterval(
+  updateDateTime,
+  1000
+);
+
+
+/* MAIN CALCULATION */
+function calc(){
+
+  const L = V('L');
+  const A = V('A');
+  const O = V('O');
+  const T = V('T');
+  const D = V('D');
+
+  const future =
+    Math.max(
+      0,
+      V('future')
+    );
+
+
+  /* VALIDATION */
+
+  if(
+    ![
+      L,A,O,T,D,future
+    ].every(Number.isFinite)
+    ||
+    L < 1
+    ||
+    A < 0
+    ||
+    A > L
+    ||
+    O < 0
+    ||
+    D < 1
+    ||
+    T <= 0
+    ||
+    T > 100
+    ||
+    future < 0
+  ){
+
+    return;
+
+  }
+
+
+  /* CURRENT ATTENDANCE */
+
+  const att = L - A;
+
+  const cur =
+    100 -
+    (((A - O) / L) * 100);
+
+
+  /* LECTURES REQUIRED */
+
+  let lecturesNeeded = 0;
+
+  if(cur < T){
+
+    lecturesNeeded =
+      Math.ceil(
+        (
+          ((T / 100) * L) - att
+        )
+        /
+        (1 - T / 100)
+        - 1e-10
+      );
+
+  }
+
+
+  /* DAYS REQUIRED */
+
+  const daysNeeded =
+    Math.ceil(
+      lecturesNeeded / D
+    );
+
+
+  /* ATTENDANCE AFTER REQUIRED DAYS */
+
+  const after =
+    (
+      att +
+      daysNeeded * D
+    )
+    /
+    (
+      L +
+      daysNeeded * D
+    )
+    * 100;
+
+
+  /* FUTURE ATTENDANCE */
+
+  const futureAtt =
+    (
+      att +
+      future * D
+    )
+    /
+    (
+      L +
+      future * D
+    )
+    * 100;
+
+
+  /* UPDATE MAIN RESULTS */
+
+  $('pct').textContent =
+    F(cur) + '%';
+
+  $('circlePct').textContent =
+    F(cur) + '%';
+
+  $('circleChart')
+    .style
+    .setProperty(
+      '--p',
+      Math.max(
+        0,
+        Math.min(
+          100,
+          cur
+        )
+      ) + '%'
+    );
+
+  $('days').textContent =
+    daysNeeded;
+
+  $('need').textContent =
+    lecturesNeeded;
+
+  $('after').textContent =
+    F(after) + '%';
+
+
+  /* LINEAR PROGRESS */
+
+  $('progressPct').textContent =
+    F(cur) + '%';
+
+  $('bar').style.width =
+    Math.max(
+      0,
+      Math.min(
+        100,
+        cur
+      )
+    ) + '%';
+
+
+  /* TARGET GRID */
+
+  const targetGrid =
+    [75,80,85,90,95]
+    .map(t => {
+
+      let n = 0;
+      let d = 0;
+
+      if(cur < t){
+
+        n =
+          Math.ceil(
+            (
+              ((t / 100) * L) - att
+            )
+            /
+            (1 - t / 100)
+            - 1e-10
+          );
+
+        d =
+          Math.ceil(
+            n / D
+          );
+
+      }
+
+      return `
+        <div class="target-card">
+
+          <b>${t}%</b>
+
+          <span>
+            ${
+              cur >= t
+              ? 'Already reached ✓'
+              : d + ' day' + (d === 1 ? '' : 's')
+            }
+          </span>
+
+        </div>
+      `;
+
+    })
+    .join('');
+
+
+  $('targetGrid').innerHTML =
+    targetGrid;
+
+
+  /* DATES */
+
+  const today =
+    new Date();
+
+  const dates =
+    [1,2,3].map(n => {
+
+      const x =
+        new Date(today);
+
+      x.setDate(
+        today.getDate() + n
+      );
+
+      return x;
+
+    });
+
+
+  /* ATTEND CLASSES PROJECTION */
+
+  const grow =
+    [1,2,3].map(
+      n =>
+        (
+          att + n * D
+        )
+        /
+        (
+          L + n * D
+        )
+        * 100
+    );
+
+
+  $('growth').innerHTML =
+    grow
+      .map(
+        (v,i) => `
+          <div class="ibox">
+
+            <small>
+              ATTEND ${i+1}
+              DAY${i ? 'S' : ''}
+            </small>
+
+            <strong>
+              ${F(v)}%
+            </strong>
+
+            <span class="date">
+              ${fmtDate(dates[i])}
+            </span>
+
+            <span class="gain">
+              +${F(v-cur)} pts
+            </span>
+
+          </div>
+        `
+      )
+      .join('');
+
+
+  /* ABSENCE PROJECTION */
+
+  const absent =
+    [1,2,3].map(
+      n =>
+        att
+        /
+        (
+          L + n * D
+        )
+        * 100
+    );
+
+
+  $('impact').innerHTML =
+    absent
+      .map(
+        (v,i) => `
+          <div class="ibox">
+
+            <small>
+              ${i+1}
+              DAY${i ? 'S' : ''}
+              ABSENT
+            </small>
+
+            <strong>
+              ${F(v)}%
+            </strong>
+
+            <span class="date">
+              ${fmtDate(dates[i])}
+            </span>
+
+            <span class="loss">
+              −${F(cur-v)} pts
+            </span>
+
+          </div>
+        `
+      )
+      .join('');
+
+
+  /* NOTICE */
+
+  if(future > 0){
+
+    const d =
+      new Date(today);
+
+    d.setDate(
+      today.getDate() + future
+    );
+
+    $('safe').className =
+      'notice';
+
+    $('safe').innerHTML =
+      `
+        After attending
+        ${future}
+        full day${future === 1 ? '' : 's'},
+        your projected attendance on
+        <b>${fmtDate(d)}</b>
+        is
+        <b>${F(futureAtt)}%</b>.
+      `;
+
+  }
+
+  else{
+
+    const one =
+      absent[0];
+
+    $('safe').className =
+      one >= T
+      ? 'notice'
+      : 'notice warn';
+
+
+    $('safe').innerHTML =
+      one >= T
+
+      ?
+
+      `
+        ✓ One day leave keeps you at or above
+        your ${T}% target.
+
+        On <b>${fmtDate(dates[0])}</b>,
+        projected attendance:
+        <b>${F(one)}%</b>.
+      `
+
+      :
+
+      `
+        ⚠ One day leave takes you below
+        your ${T}% target.
+
+        On <b>${fmtDate(dates[0])}</b>,
+        projected attendance:
+        <b>${F(one)}%</b>.
+      `;
+
+  }
+
+}
+
+
+/* CALCULATE BUTTON */
+
+$('calcBtn')
+  .addEventListener(
+    'click',
+    calc
+  );
+
+
+/* RESET BUTTON */
+
+$('resetBtn')
+  .addEventListener(
+    'click',
+    () => {
+
+      $('L').value =
+        384;
+
+      $('A').value =
+        60;
+
+      $('O').value =
+        0;
+
+      $('T').value =
+        90;
+
+      $('D').value =
+        8;
+
+      $('future').value =
+        0;
+
+
+      document
+        .querySelectorAll('.target')
+        .forEach(
+          b =>
+            b.classList.toggle(
+              'active',
+              b.dataset.t === '90'
+            )
+        );
+
+
+      calc();
+
+    }
+  );
+
+
+/* QUICK TARGET BUTTONS */
+
+document
+  .querySelectorAll('.target')
+  .forEach(
+    b =>
+
+      b.addEventListener(
+        'click',
+        () => {
+
+          document
+            .querySelectorAll('.target')
+            .forEach(
+              x =>
+                x.classList.remove(
+                  'active'
+                )
+            );
+
+          b.classList.add(
+            'active'
+          );
+
+          $('T').value =
+            b.dataset.t;
+
+          calc();
+
+        }
+      )
+
+  );
+
+
+/* AUTO CALCULATE WHEN INPUT CHANGES */
+
+document
+  .querySelectorAll('input')
+  .forEach(
+    x =>
+      x.addEventListener(
+        'input',
+        calc
+      )
+  );
+
+
+/* INITIAL CALCULATION */
+
+calc();
+
+</script>
+
+</body>
+</html>
